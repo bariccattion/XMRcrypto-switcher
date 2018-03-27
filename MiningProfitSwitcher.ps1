@@ -166,8 +166,8 @@ function calculateshit{
 	$DOLLARSXMR = $BTCXMR * $BTCPRICE
 	
 	$arrayBTCPROFIT = @(
-	([single]$DOLLARSTRTL,[single]$DOLLARSXUN,[single]$DOLLARSIPBC,[single]$DOLLARSDCY,[single]$DOLLARSITNS, [single]$DOLLARSXLC),
-	("TRTL","XUN","IPBC","DCY","ITNS","XLC")
+	([single]$DOLLARSKRB,[single]$DOLLARSTRTL,[single]$DOLLARSXUN,[single]$DOLLARSIPBC,[single]$DOLLARSSUMO,[single]$DOLLARSDCY,[single]$DOLLARSMSR,[single]$DOLLARSGRFT,[single]$DOLLARSITNS,[single]$DOLLARSXLC,[single]$DOLLARSETN),
+	("KRB","TRTL","XUN","IPBC","SUMO","DCY","MSR","GRFT","ITNS","XLC","ETN")
 	)
 	bubbleSort -array $arrayBTCPROFIT
 	$arrayrtn=$arrayBTCPROFIT
