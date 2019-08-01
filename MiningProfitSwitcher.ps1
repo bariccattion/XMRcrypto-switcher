@@ -111,8 +111,8 @@ function calculateshit{
 	$ITNSPRICE = tradeogrelowAPI https://tradeogre.com/api/v1/ticker/BTC-ITNS
 	$ETNPRICE = tradeogreAPI https://tradeogre.com/api/v1/ticker/BTC-ETN
 	$MSRPRICE = southxchangeAPI https://www.southxchange.com/api/price/MSR/BTC
-	$DEROPRICE = 0.00000001
-	$EDLPRICE = 0.00000001
+	$DEROPRICE = coinmarketcapAPI https://api.coinmarketcap.com/v1/ticker/dero/
+	$EDLPRICE = 0.0000000000000000000000000000000000000000000000000000000001
 	$FNOPRICE = 0.00000001
 
 	$NetHashTRTL = simpleAPI https://turtle-coin.com/q/hashrate/
@@ -166,8 +166,8 @@ function calculateshit{
 	$DOLLARSXMR = $BTCXMR * $BTCPRICE
 	
 	$arrayBTCPROFIT = @(
-	([single]$DOLLARSKRB,[single]$DOLLARSTRTL,[single]$DOLLARSXUN,[single]$DOLLARSIPBC,[single]$DOLLARSSUMO,[single]$DOLLARSDCY,[single]$DOLLARSMSR,[single]$DOLLARSGRFT,[single]$DOLLARSITNS,[single]$DOLLARSXLC,[single]$DOLLARSETN),
-	("KRB","TRTL","XUN","IPBC","SUMO","DCY","MSR","GRFT","ITNS","XLC","ETN")
+	([single]$DOLLARSXMR,[single]$DOLLARSKRB,[single]$DOLLARSTRTL,[single]$DOLLARSXUN,[single]$DOLLARSIPBC,[single]$DOLLARSSUMO,[single]$DOLLARSDCY,[single]$DOLLARSMSR,[single]$DOLLARSGRFT,[single]$DOLLARSITNS,[single]$DOLLARSXLC,[single]$DOLLARSETN),
+	("XMR","KRB","TRTL","XUN","IPBC","SUMO","DCY","MSR","GRFT","ITNS","XLC","ETN")
 	)
 	bubbleSort -array $arrayBTCPROFIT
 	$arrayrtn=$arrayBTCPROFIT
@@ -213,24 +213,37 @@ function checkhash{
 	"Table of profitability of 1000 H/s in dollars"
 	$array|%{"$_"}
 	
-	if((Get-FileHash "$PSScriptRoot\monero-config$stringMostProf.txt").hash  -ne (Get-FileHash "$PSScriptRoot\monero-config.txt").hash){
-		Remove-Item -Path "$PSScriptRoot\monero-config.txt"
-		Copy-Item "$PSScriptRoot\monero-config$stringMostProf.txt" -Destination "$PSScriptRoot\monero-config$stringMostProf2.txt"
-		Rename-Item -Path "$PSScriptRoot\monero-config$stringMostProf2.txt" -NewName "$PSScriptRoot\monero-config.txt"
+	if((Get-FileHash "$PSScriptRoot\pools$stringMostProf.txt").hash  -ne (Get-FileHash "$PSScriptRoot\pools.txt").hash){
+		Remove-Item -Path "$PSScriptRoot\pools.txt"
+		Copy-Item "$PSScriptRoot\pools$stringMostProf.txt" -Destination "$PSScriptRoot\pools$stringMostProf2.txt"
+		Rename-Item -Path "$PSScriptRoot\pools$stringMostProf2.txt" -NewName "$PSScriptRoot\pools.txt"
 		"$stringMostProf is best, changing it"
 		kill-Process ($STAKexe)
-		"Mining $stringMostProf for 40 minutes"
-		sleep 2400
+		"Mining $stringMostProf for 60 minutes"
+		sleep 3600
 	}
 	else {
 		"$stringMostProf is best but we are already mining it."
-		"Checking profitability again in 15 minutes"
-		sleep 900
+		"Checking profitability again in 30 minutes"
+		sleep 1800
 	}
 }
 
-"Welcome to the bariccattion's mining switcher" 
+
+"8b        d8  88b           d88  88888888ba                                                                                                                 88                      88                                   "
+" Y8,    ,8P   888b         d888  88      ,8b                                                    ,d                                                          ~~    ,d                88                                   "
+"  ´8b  d8´    88´8b       d8´88  88      ,8P                                                    88                                                                88                88                                   "
+"    Y88P      88 ´8b     d8´ 88  88aaaaaa8P´  ,adPPYba,  8b,dPPYba,  8b       d8  8b,dPPYba,  MM88MMM  ,adPPYba,             ,adPPYba,  8b      db      d8  88  MM88MMM  ,adPPYba,  88,dPPYba,    ,adPPYba,  8b,dPPYba,  "
+"    d88b      88  ´8b   d8´  88  88~~~~88´   a89     ~~  88P´   .Y8  ´8b     d8´  88P´    ,8a   88    a8~     ~8a  aaaaaaaa  I8[    ~~  ´8b    d88b    d8´  88    88    a8,     ~~  88P´    .8a  a8P_____88  88P´   .Y8  "
+"  ,8P  Y8,    88   ´8b d8´   88  88    ´8b   8b          88           ´8b   d8´   88       d8   88    8b       d8  ~~~~~~~~   ´cY8ba,    ´8b  d8´´8b  d8´   88    88    8b          88       88  8PP~~~~~~8  88          "
+" d8´    ´8b   88    ´888´    88  88     ´8b  98a,   ,aa  88            ´8b,d8´    88b,   ,a8´   88,   98a,   ,a8d            aa    ]8I    ´8bd8´  ´8bd8´    88    88,   ´8a,   ,aa  88       88  98b,   ,aa  88          "
+"8P        Y8  88     ´8´     88  88      ´8b  ´Ybbd8  88                 Y88´    ´88´YbbdPd     8Y888  ´´YbbdP~              ´cYbbdPc´      YP      YP      88    ~Y888  ´~Ybbd8~´  88       88   ´~Ybbd8~´  88          "
+"                                                                         d8´      88                                                                                                                                     "
+"                                                                        d8´       88                                                                                                                                     "
+"Welcome to bariccattion´s XMRcrypto-switcher, a XMR-STAK compatible profitability calculator" 
+"How to use:"
+"Extract all files to XMR-STAK root folder."
+"You must include a pools.txt file for each coin, example: ""poolsMSR.txt"" "
 while($true){
 	checkhash
 }
-
